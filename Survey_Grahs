@@ -1,0 +1,498 @@
+Ent---
+title: "Discovery 3"
+output: html_document
+---
+
+```{r, echo=FALSE,message=F, warning=F}
+library(reshape)
+library(lubridate)
+setwd("//Au2004np0022/Careers/Strategy and Metrics/@_Analytics_Insights/04. Capability Development/01. Projects/06. BT Pilot/DATA/Discovery 3")
+surveyall <- read.csv("surveydata2.csv")
+surveybtfg <- surveyall[surveyall$LOB1=="BTFG",]
+surveybtfg <- surveybtfg[, c(1:3, 7, 9, 11)]
+names(surveybtfg) <- c("Question", "LOB1", "Month", "BTFG Score", "Bottom Quartile", "Top Quartile")
+surveybtfg <- surveybtfg[c("Question", "LOB1", "Month", "BTFG Score", "Top Quartile", "Bottom Quartile")]
+surveybtfg <- melt(surveybtfg, id=c("Question", "LOB1", "Month"))
+```
+
+### My job made good use of my skills and abilities
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Skills...abilities.utilised",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+  geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### The level of challenge in my role was satisfactory
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Role.was.challenging",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Expectations of me were clearly communicated
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Clear.expectations",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### There were opportunities for career development in Westpac Group
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.had.career.opportunities",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Training & development opportunities were available to me
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Training...development.opportunities",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Senior leaders were visible and accessible to employees
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Senior.leaders...visible.accessible",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,0)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I received timely and relevant information about the organisation from senior leaders
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.received.organisation.information.from.senior.leaders",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Senior leaders role model the organisation's values
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Senior.leaders.role.model.the.org.values",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### When changes were made, I received good information about why changes were being made
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Change..I.was.informed.why",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I received the support I needed from my people leader to be successful in my role
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.received.support.I.needed.my.people.leader",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### My people leader recognised my achievements and accomplishments
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="People.leader.recognition",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### My people leader supported me to make use of the flexible work arrangements
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="People.leader.supported.flexible.work",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I felt like I was part of a team
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.felt.like.I.was.part.of.a.team",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### The performance management process in place measured my performance fairly
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="The.performance.management.process.measured.fairly",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I was paid fairly for my role
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.was.paid.fairly.for.my.role",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I was satisfied with the employee benefits available to me
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Satisfactory.employee.benefits",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### The systems and technology enabled me to be as productive as possible
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Systems.and.technology.enabled.me",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### The work processes allowed me to be efficient
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="The.work.processes.allowed.me.to.be.efficient",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+
+### The organisation recognised my achievements and accomplishments
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="The.organisation.recognised.my.achievements.and.accomplishments",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Westpac Group supports the balance of work and personal responsibilities
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Westpac.supports.the.balance.of.work.and.personal.responsibiliti",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### Flexible work arrangements were available to me
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="Flexible.work.arrangements.were.available.to.me",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I supported the organisations values
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.supported.the.organisations.values",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I understood how my performance contributed to the organisation's objectives
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.understood.how.my.performance.contributed.to.the.organisation.",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+
+### I would recommend Westpac Group as a great place to work
+
+```{r, fig.width=7, fig.height=3, echo=FALSE,message=F, warning=F}
+surveybtfg1 <- surveybtfg[surveybtfg$Question=="I.would.recommend.Westpac.as.a.great.place.to.work",]
+surveybtfg1$Month <- as.Date(paste("01",surveybtfg1$Month,sep="-"),"%d-%b-%y")
+surveybtfg1$value <- round(surveybtfg1$value*100,1)
+
+library(scales)
+library(ggplot2)
+ggplot(surveybtfg1, aes(x = Month, y = value, colour = variable)) + 
+geom_line() +
+geom_point(data=surveybtfg1[surveybtfg1$variable=="BTFG Score",],size=4, shape=21, fill="white")+
+theme_classic()+
+scale_x_date(labels = date_format("%b-%y"), breaks = "1 month") +
+ylab(label="Percentage Score (%)\n") + 
+xlab("Month") + 
+    geom_hline(yintercept = 50, colour ="red", linetype="dashed")+
+scale_colour_manual(values=c("black", "blue", "red"))
+```
+er file contents here
