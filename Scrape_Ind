@@ -1,0 +1,156 @@
+Enter file contents here## https://saysmymind.wordpress.com/2014/11/30/web-scraping-in-r-using-rvest/
+setwd("H:/Desktop/Westpack Stuff/Projects 2015/Indeed")
+
+library(dplyr)
+library(rvest)
+library(plyr)
+
+job_table <- data.frame()
+
+Keywords <- c('Acceptance Officer', 'Account Executive', 'Account Manager', 'Account Officer', 'Accountant', 'Administration', 'Advanced Financial Planner', 'Analyst', 'Fraud', 'Applications, Programmer', 'Architect', 'Area Manager', 'Assessor', 'Assistant Bank Manager', 'Assistant Relationship Manager', 'Associate', 'Associate Director', 'Auditor', 'Branch Manager', 'Bank Manager', 'Business Analyst', 'Business Banker', 'Business Development Manager', 'Business Manager', 'Business Support Officer', 'CBC Development', 'Change Manager', 'Chief', 'Claims', 'Communications', 'Director', 'Head of', 'Company Secretariat', 'Consultant', 'Counsel', 'Credit Manager', 'Credit Officer', 'Customer Manager', 'Customer Relationship', 'Customer Service Officer', 'Customer Solutions', 'Data Analyst', 'Developer', 'Business Partner', 'Executive Financial Planner', 'Executive Assistant', 'Personal Assistant', 'Facilitator', 'Financial Consultant', 'Financial Planner', 'Group Executive', 'General Manager', 'Graduate', 'Home Finance Manager', 'Home Lending Manager', 'Lending Assistant', 'Lending Support Officer', 'Manager', 'Product Developer', 'Mortgage Specialist', 'Multi Channel Specialist', 'Operations Officer', 'Paralegal', 'Paraplanner', 'Personal Banker', 'Personal Banking Adviser', 'Planner Assistant', 'Private Banker', 'Product Management', 'Program Director', 'Program Manager', 'Project Coordinator', 'Project Director', 'Project Manager', 'Relationship Banker', 'Relationship Director', 'Relationship Management Support', 'Relationship Manager', 'Sales Coach', 'Senior Analyst', 'Senior Financial Planner', 'Senior Manager', 'Solution Designer', 'Specialist', 'State Manager', 'Regional Manager', 'Support Officer', 'System Analyst',  'Test Analyst', 'Team Assistant', 'Team Leader', 'Team Member', 'Technical Lead', 'Technical Specialist', 'Trade Delivery Officer', 'Underwriter')
+word <- (0)
+
+################################################ JOB SEARCH
+#for each page
+
+for (s in seq(1,97,1)) {
+  word<- word+1
+  Searchword <- Keywords[0+word]
+  #Update These
+  Job.Search <- Searchword
+  Location.Search <- "Australia"
+  url <- paste("http://au.indeed.com/jobs?q=",Searchword,"&l=Australia&filter=0", sep="")
+  #####
+  download_folder <- "H:/Desktop/Westpack Stuff/Projects 2015/Indeed"
+  download.file(url,paste(download_folder,"Jobs.html",sep=""))
+  html <- html(paste(download_folder,"Jobs.html",sep=""))
+  jobstotal <- html %>%
+    html_nodes("#searchCount") %>%
+    html_text()
+  jobstotal <- as.numeric(substr(jobstotal,nchar(jobstotal)-2,nchar(jobstotal)))
+  
+  
+  for (p in seq(0,jobstotal,10)) {
+    cur_url <- paste(url,"&start=",p,sep="")
+    #download the file
+    download.file(cur_url,paste(download_folder,p,".html",sep=""))
+    #create html object
+    html <- html(paste(download_folder,p,".html",sep=""))
+    
+    # Get title
+    job_title <- html %>%
+      html_nodes("[itemprop=title]") %>%
+      html_text()
+    jobs <- job_title
+    # Get locations
+    location <- html %>%
+      html_nodes("[itemprop=addressLocality]") %>%
+      html_text()
+    # Get descriptions
+    description <- html %>%
+      html_nodes("[itemprop=description]") %>%
+      html_text()
+    # Get the links
+    link <- html %>%
+      html_nodes("[itemprop=title]") %>%
+      html_attr("href")
+    link <- paste('[Link](au.indeed.com', link, sep='')
+    link <- paste(link, ')', sep='')
+    job_title <- data.frame(job_title, location, description, link)  
+    
+    
+    
+    
+    # Get companies
+    company <- html %>%
+      html_nodes("[itemprop=title], [itemprop=hiringOrganization]") %>%
+      html_text()
+    company <- gsub("\r    \r    ","", company)
+    company <- gsub("\n","", company)
+    company<- data.frame(company)
+    company$rn <- row(company, as.factor = FALSE)
+    deljob <- data.frame(job_title$job_title)
+    deljob$Company <- deljob$job_title
+    mergedData <- merge(company, deljob, by.x="company", by.y="job_title.job_title",all.x=T)
+    mergedData <- mergedData[order(mergedData$rn),]
+    rownames(mergedData) <- NULL
+    mergedData$rn1 <- mergedData$rn+1
+    
+    one <- data.frame(mergedData$rn, mergedData$company)
+    two <- data.frame(mergedData$rn1, mergedData$Company)
+    two<- na.omit(two)
+    three <- merge(two, one, by.x="mergedData.rn1", by.y="mergedData.rn")
+    three[1] <- NULL
+    colnames(three) <- c("job_title", "Company")
+    job_title <- join(job_title, three, match="first")
+
+    
+    # Get Salaries 2
+    
+    salary <- html %>%
+      html_nodes("[itemprop=title], nobr") %>%
+      html_text()
+    salary <- gsub("\r    \r    ","", salary)
+    salary <- gsub("\n","", salary)
+    salary <- data.frame(salary)
+    salary$rn <- row(salary, as.factor = FALSE)
+    deljob <- data.frame(job_title$job_title)
+    deljob$Salary <- deljob$job_title
+    mergedData <- merge(salary, deljob, by.x="salary", by.y="job_title.job_title",all.x=T)
+    mergedData <- mergedData[order(mergedData$rn),]
+    rownames(mergedData) <- NULL
+    mergedData$rn1 <- mergedData$rn+1
+    one <- data.frame(mergedData$rn, mergedData$salary)
+    two <- data.frame(mergedData$rn1, mergedData$salary)
+    two<- na.omit(two)
+    three <- merge(two, one, by.x="mergedData.rn1", by.y="mergedData.rn")
+    three[1] <- NULL
+    colnames(three) <- c("job_title", "Salarytxt")
+    job_title <- join(job_title, three, match="first")
+    
+    # Get Salaries
+    salary <- html %>% html_nodes("[itemprop=title], nobr") %>% html_text()
+    salary <- data.frame(salary)
+    salary$salarykey <- as.character(gsub("[^\\d-]+", "", salary$salary, perl=TRUE))
+    shift <- function(x, n){c(x[-(seq(n))], rep(NA, n))}
+    salary$salarykey <- shift(salary$salarykey, 1)
+    colnames(salary) <- c("job_title", "Salarykey")
+    job_title <- join(job_title, salary, match="first")
+    rm(company, deljob, mergedData, one, salary, three, two)
+    
+    
+
+    # Admin Columns
+    job_title$Timestamp <- Sys.time()
+    job_title$Job.Search <- Job.Search
+    job_title$Location.Search <- Location.Search
+    job_title$No.Jobs <- jobstotal
+    job_table <- rbind(job_table,job_title)
+    #remove the originally downloaded file
+    file.remove(paste(download_folder,p,".html",sep=""))
+  }}
+
+################################################ SAVING WORK
+job_table$description <- gsub("\n","", job_table$description)
+job_table$mergedData.company <- gsub("\r    \r    ","", job_table$mergedData.company)
+job_table$mergedData.company <- gsub("\n","", job_table$mergedData.company)
+job_table$mergedData.company <- gsub("        ","", job_table$mergedData.company)
+job_table <- job_table[order(job_table$Timestamp),]
+job_table$mergedData.company <- as.factor(job_table$mergedData.company)
+job_table$Timestamp <- as.factor(job_table$Timestamp)
+job_table$description <- as.factor(job_table$description)
+job_table$salarykey <- as.factor(job_table$salarykey)
+job_table$mergedData.salary.y <- as.factor(job_table$mergedData.salary.y)
+job_table$Job.Search <- as.factor(job_table$Job.Search)
+job_table$Location.Search <- as.factor(Location.Search)
+job_table <- job_table %>% distinct(job_title, location, link)
+
+
+getwd()
+
+job_table_history <- read.csv("job_table_history.csv")
+job_table_history$X <- NULL
+job_table_history <- rbind(job_table_history, job_table)
+job_table_history <- job_table_history %>% distinct(job_title, location, link)
+write.csv(job_table_history, "job_table_history.csv")
+
